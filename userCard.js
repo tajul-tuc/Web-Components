@@ -1,7 +1,5 @@
-window.onload = function(){
-    // your JS here
-    const template = document.createElement('template');
-    template.innerHTML = `
+const template = document.createElement('template');
+template.innerHTML = `
 <style>
     .user-card{
         font-family: 'Arial', sans-serif;
@@ -40,37 +38,39 @@ window.onload = function(){
 </div>
 `;
 
-class userCard extends HTMLElement{
-    constructor(){
+class userCard extends HTMLElement {
+    constructor() {
         super();
         this.showInfo = true;
 
-        this.attachShadow({mode : 'open'});
-        this.ShadowRoot.appendChild(template.content.cloneNode(true));
-        this.ShadowRoot.querySelector('h3').innerText = this.getAttribute('name');
-        this.ShadowRoot.querySelector('img').src = this.getAttribute('avatar');
-    }   
-    toggleInfo(){
+        this.attachShadow({
+            mode: 'open'
+        });
+        this.shadowRoot.appendChild(template.content.cloneNode(true));
+        this.shadowRoot.querySelector('h3').innerText = this.getAttribute('name');
+        this.shadowRoot.querySelector('img').src = this.getAttribute('avatar');
+    }
+    toggleInfo() {
         this.showInfo = !this.showInfo;
-        const info = this.ShadowRoot.querySelector('.info');
-        const toggleBtn = this.ShadowRoot.querySelector('#toggle-info');
+        const info = this.shadowRoot.querySelector('.info');
+        const toggleBtn = this.shadowRoot.querySelector('#toggle-info');
 
-        if(this.showInfo){
-            info.style.display = block;
+        if (this.showInfo) {
+            info.style.display = 'block';
+            //info.style.display = 'block';
             toggleBtn.innerText = 'Hide Info';
-        }else{
-            info.style.display = none;
+        } else {
+            info.style.display = 'none';
             toggleBtn.innerText = 'Show Info';
         }
     }
 
-    connectedCallBack(){
-        this.ShadowRoot.querySelector('#toggle-info').addEventListner('click', () => this.toggleInfo());
+    connectedCallback() {
+        this.shadowRoot.querySelector('#toggle-info').addEventListener('click', () => this.toggleInfo());
     }
-    disconnectedCallBack(){
-        this.ShadowRoot.querySelector('#toggle-info').removeEventListner();
+    disconnectedCallback() {
+        this.shadowRoot.querySelector('#toggle-info').removeEventListener();
     }
 }
 
-window.customElements.define('user-card',userCard);
-}
+window.customElements.define('user-card', userCard);
